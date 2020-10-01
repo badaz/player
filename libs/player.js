@@ -11,7 +11,7 @@ import path from 'path'
 import util from "util"
 import { http, https } from 'follow-redirects'
 import home from 'home'
-import lame from 'lame'
+import lame from '@suldashi/lame'
 import _ from 'underscore'
 import Speaker from 'speaker'
 import PoolStream from 'pool_stream'
@@ -99,7 +99,7 @@ export default class Player extends EventEmitter {
         return this.emit('error', err)
 
       this.meta(pool, (err, data) => {
-        if (!err) 
+        if (!err)
           song.meta = data
       })
 
@@ -127,7 +127,7 @@ export default class Player extends EventEmitter {
         // can't trigger playend event here cause
         // unpipe will fire this speaker's close event.
         this.pipe(speaker)
-          .once('close', () => 
+          .once('close', () =>
             self.emit('playend', song))
       }
     })
@@ -184,7 +184,7 @@ export default class Player extends EventEmitter {
     }
 
     this.paused = !this.paused
-    return this	
+    return this
   }
 
   /**
@@ -215,7 +215,7 @@ export default class Player extends EventEmitter {
   next() {
     let list = this._list
     let current = this.playing
-    let nextIndex = this.options.shuffle ? 
+    let nextIndex = this.options.shuffle ?
       chooseRandom(_.difference(list, [current._id])) :
       current._id + 1
 
@@ -239,7 +239,7 @@ export default class Player extends EventEmitter {
   previous() {
     let list = this._list
     let current = this.playing
-    let previousIndex = this.options.shuffle ? 
+    let previousIndex = this.options.shuffle ?
       chooseRandom(_.difference(list, [current._id])) :
       current._id - 1
 
@@ -353,13 +353,13 @@ export default class Player extends EventEmitter {
       'duration': true
     }
 
-    stream.on('error', err => 
+    stream.on('error', err =>
       this.emit('error', `出错了 ${err.code}: ${err.path}`))
 
     return mm(stream, options, callback)
   }
 
-  // Format metadata with template 
+  // Format metadata with template
   // And output to `stdout`
   progress(metadata) {
     var total = 70
